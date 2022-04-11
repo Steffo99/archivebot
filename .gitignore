@@ -64,3 +64,4 @@ target/
 # Repository kram
 *.session*
 data/
+.venv/
