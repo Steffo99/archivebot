@@ -21,5 +21,6 @@ FROM package AS environment
 ENV PYTHONUNBUFFERED=1
 
 FROM environment AS app
+WORKDIR /root
 ENTRYPOINT ["poetry", "run", "python", "-OO"]
 CMD ["./main.py"]
