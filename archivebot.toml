@@ -8,7 +8,7 @@ app_api_id = 0
 app_api_hash = "apihash"
 
 [database]
-sql_uri = "sqlite:///archivebot.db"
+sql_uri = "sqlite:///data/archivebot.sqlite"
 
 [logging]
 sentry_enabled = false
@@ -20,4 +20,4 @@ allowed_types = [
     "document",
     "photo",
 ]
-target_dir = "/home/user/archivebot/"
+target_dir = "./data/"
