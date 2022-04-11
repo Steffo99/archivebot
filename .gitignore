@@ -63,5 +63,7 @@ target/
 
 # Repository kram
 *.session*
+archivebot.sqlite
 data/
+downloads/
 .venv/
