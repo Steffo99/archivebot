@@ -98,28 +98,42 @@ $ poetry run python ./main.py
 
 1. Clone the repository: 
 
-```console
-$ git clone git@github.com:nukesor/archivebot
-$ cd archivebot
-```
+   ```console
+   $ git clone git@github.com:nukesor/archivebot
+   $ cd archivebot
+   ```
 
 1. Build the Docker image of the repository:
 
-```console
-# docker build --tag ghcr.io/nukesor/archivebot:latest .
-```
+   ```console
+   # docker build --tag ghcr.io/nukesor/archivebot:latest .  # Add --rm=false for faster future builds
+   ```
+
+1. Create the various directories:
+
+   ```console
+   $ mkdir --parents ./data/.config
+   $ mkdir --parents ./data/downloads
+   ```
+
+1. Copy the configuration template to the data directory and edit it:
+
+   ```console
+   $ cp ./archivebot.toml ./data/.config/archivebot.toml
+   $ open ./data/.config/archivebot.toml
+   ```
 
 1. Create a new Docker container using the built image:
 
-```console
-# container=$(docker create --interactive --tty --volume "$PWD/data:/root" --volume "$PWD/archivebot.toml:/root/.config/archivebot.toml" --restart "unless-stopped" "ghcr.io/nukesor/archivebot:latest")
-```
+   ```console
+   # container=$(docker create --interactive --tty --volume "$PWD/data:/root" --volume "$PWD/archivebot.toml:/root/.config/archivebot.toml" --restart "unless-stopped" "ghcr.io/nukesor/archivebot:latest")
+   ```
 
-1. Start the created container:
+1. Start the created container, attaching to it so you can enter the authentication code(s):
 
-```console
-# docker start $container
-```
+   ```console
+   # docker start --attach $container
+   ```
 
 
 ## Configuration
