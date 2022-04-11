@@ -1,23 +1,52 @@
 [telegram]
-userbot = true
-# Get your telegram api-key from @botfather
-api_key = "your_telegram_api_key (empty if in userbot mode)"
-phone_number = "your_phone_number (empty if not in userbot mode)"
-# Get client api keys from https://my.telegram.org
+# Get client API keys from: https://my.telegram.org
+# BEWARE: they should be kept private at all costs, as THEY CANNOT BE REVOKED!
 app_api_id = 0
 app_api_hash = "apihash"
 
+# Toggles whether archivebot should be run as a bot account or as a regular user account
+# true: run as a regular user account
+# false: run as a bot account
+userbot = true
+
+# If running as a bot account, set this to the API token of your bot
+# Get an API token at: https://t.me/BotFather
+# Leave empty if userbot is true
+api_key = "1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+
+# If running as a regular user account, set this to the phone number of your account
+# Phone number should be in international format, without the + at the start
+# Leave empty if userbot is false
+phone_number = "391234567890"
+
+
 [database]
+# The URI of the bot's database
+# Syntax is documented here: https://docs.sqlalchemy.org/en/14/core/engines.html#sqlite
 sql_uri = "sqlite:///data/archivebot.sqlite"
 
+
 [logging]
+# Whether error reporting via https://sentry.io/ should be performed or not
+# BEWARE: private data may be leaked by doing so!
 sentry_enabled = false
+
+# The Sentry Client Key, also called DSN 
+# Get yours in the Settings page of your project, under the SDK Setup category
 sentry_token = ""
 
+
 [download]
-# Default for downloaded files
+# The file types that can be downloaded
+# Comment or uncomment based on your needs
 allowed_types = [
+    # Generic files
     "document",
+    # Compressed photos
     "photo",
+    # Stickers
+    # "sticker",
 ]
-target_dir = "./data/"
+
+# Where the bot should store the downloaded files
+target_dir = "data/"
