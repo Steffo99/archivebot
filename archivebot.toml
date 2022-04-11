@@ -19,6 +19,8 @@ api_key = "1234567890:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 # Leave empty if userbot is false
 phone_number = "391234567890"
 
+# IDs of the users authorized to interact with the bot
+authorized_users = [123456789, 986754321]
 
 [database]
 # The URI of the bot's database

@@ -126,7 +126,7 @@ $ poetry run python ./main.py
 1. Create a new Docker container using the built image:
 
    ```console
-   # container=$(docker create --interactive --tty --volume "$PWD/data:/root" --volume "$PWD/archivebot.toml:/root/.config/archivebot.toml" --restart "unless-stopped" "ghcr.io/nukesor/archivebot:latest")
+   # container=$(docker create --interactive --tty --volume "$PWD/data:/root" --restart "unless-stopped" "ghcr.io/nukesor/archivebot:latest")
    ```
 
 1. Start the created container, attaching to it so you can enter the authentication code(s):
@@ -171,8 +171,7 @@ E.g. `/start@some_bot_name` or `/start@Nukesor`
 ```
 
 <details>
-    <summary>BotFather string</summary>
-
+<summary>BotFather string</summary>
 
 These are the command descriptions formatted for the BotFather, in case you want to host your own bot:
 

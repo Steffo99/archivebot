@@ -39,19 +39,21 @@ archive = TelegramClient(
     NAME, config["telegram"]["app_api_id"], config["telegram"]["app_api_hash"]
 )
 
+admins = config["telegram"]["authorized_users"]
+
 # Ensure save directory for files exists
 if not os.path.exists(config["download"]["target_dir"]):
     os.mkdir(config["download"]["target_dir"])
 
 
-@archive.on(events.NewMessage(pattern="/help", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]help", incoming=True, from_users=admins))
 @session_wrapper()
 async def help(event, session):
     """Send a help text."""
     return help_text
 
 
-@archive.on(events.NewMessage(pattern="/info", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]info", incoming=True, from_users=admins))
 @session_wrapper()
 async def info(event, session):
     """Send a the information about the current user settings."""
@@ -60,7 +62,7 @@ async def info(event, session):
     return get_info_text(subscriber)
 
 
-@archive.on(events.NewMessage(pattern="/set_name", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]set_name", incoming=True, from_users=admins))
 @session_wrapper()
 async def set_name(event, session):
     """Set the name of the current chat (also affects the saving directory."""
@@ -113,7 +115,7 @@ async def set_name(event, session):
         return "Chat name changed."
 
 
-@archive.on(events.NewMessage(pattern="/verbose", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]verbose", incoming=True, from_users=admins))
 @session_wrapper()
 async def set_verbose(event, session):
     """Set the verbosity for this chat."""
@@ -125,7 +127,7 @@ async def set_verbose(event, session):
     return f"I'm now configured to be {'verbose' if verbose else 'sneaky'}."
 
 
-@archive.on(events.NewMessage(pattern="/allow_duplicates", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]allow_duplicates", incoming=True, from_users=admins))
 @session_wrapper()
 async def allow_duplicates(event, session):
     """Set whether duplicat file names are allowed for this chat."""
@@ -139,7 +141,7 @@ async def allow_duplicates(event, session):
     )
 
 
-@archive.on(events.NewMessage(pattern="/sort_by_user", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]sort_by_user", incoming=True, from_users=admins))
 @session_wrapper()
 async def set_sort_by_user(event, session):
     """Set whether files should be sorted by message author."""
@@ -150,7 +152,7 @@ async def set_sort_by_user(event, session):
     return f"{'Sorting' if sorting else 'Not sorting'} by user."
 
 
-@archive.on(events.NewMessage(pattern="/accept", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]accept", incoming=True, from_users=admins))
 @session_wrapper()
 async def accepted_media_types(event, session):
     """Set the allowed media types for this chat."""
@@ -171,7 +173,7 @@ async def accepted_media_types(event, session):
     return f"Now accepting following media types: {accepted_media}."
 
 
-@archive.on(events.NewMessage(pattern="/start", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]start", incoming=True, from_users=admins))
 @session_wrapper()
 async def start(event, session):
     """Subscribe to this specific chat."""
@@ -184,7 +186,7 @@ async def start(event, session):
     return "Files posted in this chat will now be archived."
 
 
-@archive.on(events.NewMessage(pattern="/stop", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]stop", incoming=True, from_users=admins))
 @session_wrapper()
 async def stop(event, session):
     """Unsubscribe from this specific chat."""
@@ -197,7 +199,7 @@ async def stop(event, session):
     return "Files won't be archived any longer."
 
 
-@archive.on(events.NewMessage(pattern="/clear_history", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]clear_history", incoming=True, from_users=admins))
 @session_wrapper()
 async def clear_history(event, session):
     """Remove every downloaded file from the database and the file system."""
@@ -216,7 +218,7 @@ async def clear_history(event, session):
     return "All files from this chat have been deleted."
 
 
-@archive.on(events.NewMessage(pattern="/scan_chat", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]scan_chat", incoming=True, from_users=admins))
 @session_wrapper()
 async def scan_chat(event, session):
     """Scan the whole chat for files. Necessary for getting old files."""
@@ -234,7 +236,7 @@ async def scan_chat(event, session):
     return "Full chat scan successful."
 
 
-@archive.on(events.NewMessage(pattern="/zip", outgoing=True))
+@archive.on(events.NewMessage(pattern="[/]zip", incoming=True, from_users=admins))
 @session_wrapper()
 async def zip(event, session):
     """Create 1.5GB(config["zip"]["volume_size"]) zips with all files collectd in this chat."""
@@ -344,9 +346,12 @@ async def process_message(session, subscriber, message, event, full_scan=False):
 
 def main():
     """Login and start the bot."""
+
+    print("Logging in...")
     if config["telegram"]["userbot"]:
         archive.start(phone=config["telegram"]["phone_number"])
     else:
         archive.start(bot_token=config["telegram"]["api_key"])
 
+    print("Running!")
     archive.run_until_disconnected()
