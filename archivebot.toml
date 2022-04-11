@@ -23,7 +23,7 @@ phone_number = "391234567890"
 [database]
 # The URI of the bot's database
 # Syntax is documented here: https://docs.sqlalchemy.org/en/14/core/engines.html#sqlite
-sql_uri = "sqlite:///data/archivebot.sqlite"
+sql_uri = "sqlite:///archivebot.sqlite"
 
 
 [logging]
@@ -49,4 +49,4 @@ allowed_types = [
 ]
 
 # Where the bot should store the downloaded files
-target_dir = "data/"
+target_dir = "downloads/"
